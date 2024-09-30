@@ -10,9 +10,9 @@ This app has a directory of dogs available for adoption, and users can create an
 > Start the database using the script in the `scripts/` folder
 
 1. [Dog records in the DB](Dog records in the DB) :x:
-   - [ ] **POST** /dog/ (Create a new dog entry)
+   - [x] **POST** /dog/ (Create a new dog entry)
    - [ ] **GET** /dog/ (Retrieve a specific dog)
-   - [ ] **GET** /dog/list/ (List all available active dogs at the shelter)
+   - [x] **GET** /dog/list/ (List all available active dogs at the shelter)
    - [ ] **DELETE** /dog/delete/ (Remove a dog from the shelter)
    - [ ] **PATCH** /dog/update/ (Update details of a specific dog)
 
@@ -82,3 +82,5 @@ This app has a directory of dogs available for adoption, and users can create an
   "startDate": "2022-06-01"
 }
 ```
+
+![MongoDB table](1.png)
