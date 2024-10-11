@@ -1,11 +1,11 @@
 from datetime import datetime
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr, Field
 
 
 class Volunteer(BaseModel):
     id: int
-    name: str
-    email: str
+    name: str = Field(...)
+    email: EmailStr = Field(...)
     phone: str
-    role: str
+    role: str = Field(...)
     startDate: datetime

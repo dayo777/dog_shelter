@@ -1,4 +1,3 @@
-from ast import List
 from fastapi import APIRouter, HTTPException, status, Request, Body, Response
 from data import dog as db_service
 from model.dog import Dog, DogUpdate
@@ -14,7 +13,7 @@ def list(request: Request) -> list[Dog]:
     return db_service.list_dog(request)
 
 @router.get("/{id}", response_description="Get a single dog by id")
-def get(id: str, request: Request) -> Dog:
+def get(id: int, request: Request) -> Dog:
     """Retrieve a single dog"""
     try:
         return db_service.get_dog(id, request)

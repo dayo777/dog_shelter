@@ -3,13 +3,14 @@
 from fastapi.encoders import jsonable_encoder
 from fastapi import HTTPException, Request, status, Response
 from model.dog import Dog, DogUpdate
+from typing import List
 
 
 
-def get_dog(id: str, request: Request) -> Dog:
+def get_dog(id: int, request: Request) -> Dog:
     if (dog := request.app.database["dog"].find_one({"id": id})) is not None:
         return dog
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Book with `{id}` not found.")
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Dog with `{id}` not found.")
 
 def create_dog(request: Request, dog: Dog) -> Dog:
     dog = jsonable_encoder(dog)
@@ -19,7 +20,7 @@ def create_dog(request: Request, dog: Dog) -> Dog:
     )
     return created_dog
 
-def list_dog(request: Request) -> list[Dog]:
+def list_dog(request: Request) -> List[Dog]:
     dogs = list(request.app.database["dog"].find(limit=50))
     return dogs
 
@@ -37,7 +38,7 @@ def update_dog(id: str, request: Request, dog: DogUpdate) -> Dog:
         return existing_dog
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = f"Book with id `{id}` not found.")
 
-def delete_dog(id: str, request, Request, response: Response):
+def delete_dog(id: int, request: Request, response: Response):
     delete_result = request.app.database["dog"].delete_one({"id": id})
     if delete_result == 1:
         response.status_code = status.HTTP_204_NO_CONTENT

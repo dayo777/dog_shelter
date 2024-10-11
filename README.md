@@ -1,5 +1,9 @@
 ## Basic dog shelter API (for learning purpose) :tm:
 
+> While learning how to build APIs with FastAPI & PyMongo, I came across this [article](https://www.mongodb.com/developer/products/mongodb/8-fastapi-mongodb-best-practices/) which suggested that Mongo driver (which is Async) will be the focus going forward.
+>
+> So I decided to learn with Motor driver [here](https://github.com/dayo777/car_sales)
+
 This app has a directory of dogs available for adoption, and users can create an account to adopt dogs
 
 

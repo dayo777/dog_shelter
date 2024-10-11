@@ -8,7 +8,6 @@
         contains the Data model structures
 """
 
-from sys import prefix
 from fastapi import FastAPI
 from routes import dog, adoption, volunteer
 import uvicorn
@@ -23,14 +22,17 @@ config = dotenv_values(".env")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    app.mongodb_client = MongoClient(config["ATLAS_URI"], tls=True, tlsCertificateKeyFile=config["TLS_CERT"], server_api=ServerApi('1'))
+    app.mongodb_client = MongoClient(
+        config["ATLAS_URI"], tls=True,
+        tlsCertificateKeyFile=config["TLS_CERT"],
+        server_api=ServerApi('1'))
     app.database = app.mongodb_client[config["DB_NAME"]]
-    print("Connected to the MongoDB database!")
+    print("DB connection successful!")
     yield
     app.mongodb_client.close()
 
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(lifespan=lifespan, title="Dog shelter API", summary="Dog shelter API example tutorial")
 app.include_router(dog.router, prefix="/api/v1/dog")
 app.include_router(adoption.router, prefix="/api/v1/adoption")
 app.include_router(volunteer.router, prefix="/api/v1/volunteer")

@@ -1,8 +1,18 @@
 from pydantic import BaseModel, Field
+from pydantic.functional_validators import BeforeValidator
 from datetime import datetime
+from typing import List
+from typing_extensions import Annotated
+from bson import ObjectId
 
+
+PyObjectId = Annotated[str, BeforeValidator(str)]
 
 class Dog(BaseModel):
+    """
+    Container for a single Dog record
+    """
+    # id: Optional[PyObjectId] = Field(alias="_id", default=None)
     id: int
     name: str = Field(...)
     breed: str = Field(...)
@@ -19,7 +29,6 @@ class Dog(BaseModel):
         populate_by_name = True
         json_schema_extra = {
             "example": {
-                "_id": 1,
                 "name": "Buddy",
                 "breed": "Labrador Retriever",
                 "age": 5,
@@ -46,6 +55,8 @@ class DogUpdate(BaseModel):
     updated_at: datetime | None = None
 
     class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
         json_schema_extra ={
             "example": {
                 "name": "Buddy",
@@ -54,9 +65,16 @@ class DogUpdate(BaseModel):
                 "gender": "Male",
                 "description": "Friendly and energetic dog",
                 "status": "Available",
-                "adoptionDate": None,
+                "adoptionDate": "2024-10-01 12:00",
                 "adoptionFee":  20.5,
-                "created_at": "2024-10-01 12:00",
-                "updated_at": None
+                "updated_at": "2024-10-01 12:00"
             }
         }
+
+
+class DogCollection(BaseModel):
+    """
+    This exists because providing a top-level array in a JSON response
+    can be a [vulnerability](https://haacked.com/archive/2009/06/25/json-hijacking.aspx/)
+    """
+    students: List[Dog]
